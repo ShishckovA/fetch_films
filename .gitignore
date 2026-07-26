@@ -1,0 +1,9 @@
+*.json
+*.tar.gz
+*.gz
+*.html
+legacy/
+**/__pycache__/**/*
+**/.DS_Store
+shikimori/shikimori.tsv
+

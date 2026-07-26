@@ -1,0 +1,3 @@
+topic	source_file	url	reason
+news	topic/news/2017/page_10.json	https://www.film.ru/rusplt.php	not a /news content URL
+news	topic/news/2017/page_59.json	https://www.film.ru/redirect-5.php	not a /news content URL
