@@ -12,9 +12,8 @@ from urllib.parse import urlparse
 import requests
 from tqdm import tqdm
 
-
 WORKERS = 32
-RETRIES = 5
+RETRIES = 128
 TIMEOUT = (10, 30)
 HEADERS = {
     "User-Agent": (
