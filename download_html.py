@@ -110,12 +110,25 @@ def download_one(
 
 def main() -> None:
     parser = argparse.ArgumentParser(description="Скачать HTML по списку URL")
-    parser.add_argument("urls_file", type=Path)
-    parser.add_argument("proxies_file", type=Path)
-    parser.add_argument("output_dir", type=Path)
+    parser.add_argument("urls_file", type=Path, help="список URL для скачивания")
+    parser.add_argument("proxies_file", type=Path, help="список прокси")
+    parser.add_argument("output_dir", type=Path, help="папка для HTML")
+    parser.add_argument(
+        "ignore_urls_file",
+        type=Path,
+        nargs="?",
+        help="необязательный список уже скачанных URL",
+    )
     args = parser.parse_args()
 
-    urls = read_urls(args.urls_file)
+    input_urls = read_urls(args.urls_file)
+    ignored_urls = (
+        set(read_urls(args.ignore_urls_file))
+        if args.ignore_urls_file
+        else set()
+    )
+    urls = [url for url in input_urls if url not in ignored_urls]
+    ignored_count = len(input_urls) - len(urls)
     proxies = read_proxies(args.proxies_file)
     args.output_dir.mkdir(parents=True, exist_ok=True)
 
@@ -151,6 +164,7 @@ def main() -> None:
     print(
         f"Скачано: {counts['downloaded']}; "
         f"пропущено: {counts['skipped']}; "
+        f"исключено: {ignored_count}; "
         f"ошибок: {counts['failed']}; "
         f"прокси при старте: {len(proxies)}"
     )
