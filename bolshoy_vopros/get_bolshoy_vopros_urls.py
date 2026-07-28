@@ -51,8 +51,7 @@ def fetch_page(session: requests.Session, tag: str, page: int) -> list[str]:
                 for element in soup.select("a.question_title[href]")
             ]
         except requests.RequestException:
-            if attempt + 1 < RETRIES:
-                time.sleep(2**attempt)
+            pass
     raise RuntimeError(f"Не удалось скачать страницу {page}")
 
 
