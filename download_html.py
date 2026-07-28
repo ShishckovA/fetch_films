@@ -103,7 +103,7 @@ def download_one(
             return "downloaded", url
         except (OSError, RuntimeError, ValueError, requests.RequestException):
             if attempt + 1 < RETRIES:
-                time.sleep(min(2**attempt + random.random(), 10))
+                time.sleep(random.random() * 3)
 
     return "failed", url
 
@@ -123,9 +123,7 @@ def main() -> None:
 
     input_urls = read_urls(args.urls_file)
     ignored_urls = (
-        set(read_urls(args.ignore_urls_file))
-        if args.ignore_urls_file
-        else set()
+        set(read_urls(args.ignore_urls_file)) if args.ignore_urls_file else set()
     )
     urls = [url for url in input_urls if url not in ignored_urls]
     ignored_count = len(input_urls) - len(urls)
